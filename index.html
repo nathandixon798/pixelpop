@@ -1,1248 +1,459 @@
-/* ============================================
-   pixelpop — main stylesheet
-   ============================================ */
-
-/* ---- Tokens ---- */
-:root {
-  /* Brand palette */
-  --pink: #FF4D8B;
-  --pink-soft: #FFE3EC;
-  --purple: #6C4DFF;
-  --purple-soft: #E8E2FF;
-  --mint: #00D4AA;
-  --mint-soft: #D6F8EF;
-  --yellow: #FFD43B;
-  --yellow-soft: #FFF4CC;
-  --coral: #FF7849;
-
-  /* Surface */
-  --bg: #FFF8F3;
-  --bg-soft: #FBF1E8;
-  --surface: #FFFFFF;
-  --ink: #14142B;
-  --ink-soft: #5A5A77;
-  --line: #EFE7DD;
-
-  /* Type */
-  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-  --font-display: 'Fraunces', 'Plus Jakarta Sans', Georgia, serif;
-
-  /* Layout */
-  --maxw: 1200px;
-  --maxw-narrow: 820px;
-  --radius-sm: 12px;
-  --radius-md: 20px;
-  --radius-lg: 28px;
-  --radius-xl: 40px;
-  --shadow-sm: 0 4px 14px -2px rgba(20, 20, 43, 0.06);
-  --shadow-md: 0 16px 40px -12px rgba(20, 20, 43, 0.12);
-  --shadow-lg: 0 30px 60px -20px rgba(20, 20, 43, 0.18);
-  --shadow-pink: 0 18px 40px -12px rgba(255, 77, 139, 0.45);
-}
-
-/* ---- Reset & base ---- */
-*, *::before, *::after { box-sizing: border-box; }
-* { margin: 0; padding: 0; }
-
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
-
-body {
-  font-family: var(--font-sans);
-  background: var(--bg);
-  color: var(--ink);
-  line-height: 1.55;
-  font-size: 17px;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
-}
-
-img, svg { display: block; max-width: 100%; }
-a { color: inherit; text-decoration: none; }
-button { font: inherit; cursor: pointer; border: 0; background: none; color: inherit; }
-ul, ol { list-style: none; }
-
-::selection { background: var(--pink); color: #fff; }
-
-/* ---- Layout helpers ---- */
-.container {
-  width: 100%;
-  max-width: var(--maxw);
-  margin: 0 auto;
-  padding: 0 24px;
-}
-.container--narrow { max-width: var(--maxw-narrow); }
-
-.section { padding: 120px 0; position: relative; }
-.section--soft { background: var(--bg-soft); }
-
-.section__head {
-  text-align: center;
-  max-width: 720px;
-  margin: 0 auto 72px;
-}
-
-.eyebrow {
-  display: inline-block;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--purple);
-  background: var(--purple-soft);
-  padding: 6px 14px;
-  border-radius: 999px;
-  margin-bottom: 20px;
-}
-.eyebrow--light {
-  color: #fff;
-  background: rgba(255,255,255,0.16);
-  backdrop-filter: blur(8px);
-}
-
-.section__title {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: clamp(32px, 4.4vw, 52px);
-  line-height: 1.08;
-  letter-spacing: -0.02em;
-  margin-bottom: 18px;
-}
-
-.section__sub {
-  font-size: 18px;
-  color: var(--ink-soft);
-  line-height: 1.6;
-}
-
-/* ---- Word highlights ---- */
-.word-highlight {
-  position: relative;
-  display: inline-block;
-  white-space: nowrap;
-}
-.word-highlight::before {
-  content: "";
-  position: absolute;
-  inset: auto -6px -2px -6px;
-  height: 38%;
-  border-radius: 8px;
-  z-index: -1;
-  transform: rotate(-1deg);
-  transition: height 0.6s cubic-bezier(.2,.8,.2,1);
-}
-.word-highlight--pink::before  { background: var(--pink-soft); }
-.word-highlight--purple::before{ background: var(--purple-soft); }
-.word-highlight--mint::before  { background: var(--mint-soft); }
-.word-highlight--yellow::before{ background: var(--yellow-soft); }
-
-/* ---- Hero-only highlights (convert / rank / pop) ---- */
-
-/* Yellow swoosh underline */
-.hl-underline {
-  position: relative;
-  display: inline-block;
-  white-space: nowrap;
-}
-.hl-underline::after {
-  content: "";
-  position: absolute;
-  left: -4px;
-  right: -10px;
-  bottom: -0.18em;
-  height: 0.32em;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 18' preserveAspectRatio='none'%3E%3Cpath d='M4 13 Q 80 3 160 9 T 296 7' stroke='%23FFD43B' stroke-width='9' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  z-index: -1;
-  transform-origin: left center;
-  animation: draw-underline 0.9s cubic-bezier(.6,.1,.3,1) 0.5s both;
-}
-@keyframes draw-underline {
-  from { transform: scaleX(0); }
-  to   { transform: scaleX(1); }
-}
-
-/* Solid pink text */
-.hl-color {
-  color: var(--pink);
-  display: inline-block;
-}
-
-/* Solid mint pill */
-.hl-pill {
-  display: inline-block;
-  background: var(--mint);
-  color: var(--ink);
-  padding: 0 0.22em;
-  border-radius: 0.18em;
-  line-height: 0.9;
-  white-space: nowrap;
-  transform: rotate(-1.5deg) translateY(0.06em);
-  transition: transform 0.4s cubic-bezier(.2,.8,.2,1);
-}
-.hl-pill:hover { transform: rotate(0deg) translateY(0.06em) scale(1.04); }
-
-/* ---- Buttons ---- */
-.btn {
-  --btn-bg: var(--ink);
-  --btn-color: #fff;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 14px 22px;
-  background: var(--btn-bg);
-  color: var(--btn-color);
-  border-radius: 999px;
-  font-weight: 600;
-  font-size: 15px;
-  letter-spacing: -0.005em;
-  transition: transform 0.25s cubic-bezier(.2,.8,.2,1), box-shadow 0.25s ease, background 0.2s ease;
-  box-shadow: var(--shadow-sm);
-  white-space: nowrap;
-  position: relative;
-  isolation: isolate;
-}
-.btn svg { transition: transform 0.25s cubic-bezier(.2,.8,.2,1); }
-.btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
-.btn:hover svg { transform: translateX(4px); }
-.btn:active { transform: translateY(0); }
-
-.btn--primary {
-  --btn-bg: var(--pink);
-  box-shadow: var(--shadow-pink);
-}
-.btn--primary:hover { --btn-bg: #ff3a7d; box-shadow: 0 22px 50px -12px rgba(255,77,139,0.55); }
-
-.btn--ghost {
-  --btn-bg: transparent;
-  --btn-color: var(--ink);
-  border: 2px solid var(--line);
-  box-shadow: none;
-}
-.btn--ghost:hover { --btn-bg: var(--surface); border-color: var(--ink); }
-
-.btn--white {
-  --btn-bg: #fff;
-  --btn-color: var(--ink);
-}
-.btn--white:hover { --btn-bg: #fff; }
-
-.btn--lg { padding: 18px 28px; font-size: 16px; }
-.btn--sm { padding: 10px 18px; font-size: 14px; }
-
-/* ============================================
-   NAVBAR
-   ============================================ */
-.nav {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  background: rgba(255, 248, 243, 0.85);
-  backdrop-filter: saturate(180%) blur(14px);
-  -webkit-backdrop-filter: saturate(180%) blur(14px);
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.3s ease, background 0.3s ease;
-}
-.nav.is-scrolled {
-  border-bottom-color: var(--line);
-}
-.nav__inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  padding-top: 16px;
-  padding-bottom: 16px;
-}
-
-.logo {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 800;
-  font-size: 20px;
-  letter-spacing: -0.02em;
-}
-.logo__mark {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 3px;
-  width: 28px;
-  height: 28px;
-  padding: 3px;
-  border-radius: 9px;
-  background: var(--ink);
-}
-.logo__dot {
-  display: block;
-  border-radius: 4px;
-  transition: transform 0.4s cubic-bezier(.2,.8,.2,1);
-}
-.logo__dot--1 { background: var(--pink); }
-.logo__dot--2 { background: var(--yellow); }
-.logo__dot--3 { background: var(--mint); }
-.logo__dot--4 { background: var(--purple); }
-.logo:hover .logo__dot--1 { transform: rotate(8deg) scale(1.1); }
-.logo:hover .logo__dot--2 { transform: rotate(-8deg) scale(1.1); }
-.logo:hover .logo__dot--3 { transform: rotate(-8deg) scale(1.1); }
-.logo:hover .logo__dot--4 { transform: rotate(8deg) scale(1.1); }
-.logo__text { letter-spacing: -0.025em; }
-
-.nav__links {
-  display: flex;
-  gap: 8px;
-  margin-left: auto;
-  margin-right: 16px;
-}
-.nav__links a {
-  padding: 8px 14px;
-  border-radius: 999px;
-  font-weight: 500;
-  font-size: 15px;
-  color: var(--ink-soft);
-  transition: color 0.2s ease, background 0.2s ease;
-}
-.nav__links a:hover { color: var(--ink); background: var(--surface); }
-
-.nav__toggle {
-  display: none;
-  flex-direction: column;
-  gap: 5px;
-  padding: 8px;
-}
-.nav__toggle span {
-  display: block;
-  width: 22px;
-  height: 2px;
-  background: var(--ink);
-  border-radius: 2px;
-  transition: transform 0.3s ease, opacity 0.3s ease;
-}
-
-/* ============================================
-   HERO
-   ============================================ */
-.hero {
-  position: relative;
-  padding: 80px 0 100px;
-  overflow: hidden;
-}
-.hero__bg {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-}
-.blob {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.5;
-  animation: blob-float 14s ease-in-out infinite;
-}
-.blob--1 { width: 400px; height: 400px; background: var(--pink); top: -100px; left: -120px; }
-.blob--2 { width: 380px; height: 380px; background: var(--purple); top: 200px; right: -120px; animation-delay: -4s; }
-.blob--3 { width: 320px; height: 320px; background: var(--yellow); bottom: -120px; left: 30%; animation-delay: -8s; }
-
-@keyframes blob-float {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33%      { transform: translate(30px, -30px) scale(1.05); }
-  66%      { transform: translate(-20px, 20px) scale(0.97); }
-}
-
-.hero__grid {
-  display: grid;
-  grid-template-columns: 1.05fr 1fr;
-  gap: 60px;
-  align-items: center;
-}
-
-.pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 14px;
-  font-weight: 600;
-  background: var(--surface);
-  border: 2px solid var(--ink);
-  padding: 8px 18px;
-  border-radius: 999px;
-  margin-bottom: 28px;
-  box-shadow: 0 4px 0 -1px var(--ink);
-  transition: transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease;
-}
-.pill:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 0 -1px var(--ink);
-}
-.pill__dot {
-  width: 8px; height: 8px;
-  background: var(--mint);
-  border-radius: 50%;
-  box-shadow: 0 0 0 4px rgba(0,212,170,0.18);
-  animation: pulse 2.4s ease-in-out infinite;
-}
-@keyframes pulse {
-  0%, 100% { box-shadow: 0 0 0 4px rgba(0,212,170,0.18); }
-  50%      { box-shadow: 0 0 0 8px rgba(0,212,170,0.05); }
-}
-
-.hero__title {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: clamp(40px, 6.4vw, 76px);
-  line-height: 1.02;
-  letter-spacing: -0.025em;
-  margin-bottom: 22px;
-}
-
-.hero__sub {
-  font-size: 19px;
-  color: var(--ink-soft);
-  max-width: 520px;
-  line-height: 1.55;
-  margin-bottom: 36px;
-}
-
-.hero__cta {
-  display: flex;
-  gap: 14px;
-  flex-wrap: wrap;
-  margin-bottom: 40px;
-}
-
-.hero__proof {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-.avatars {
-  display: flex;
-}
-.avatar {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: 700;
-  color: #fff;
-  border: 3px solid var(--bg);
-  margin-left: -10px;
-}
-.avatar:first-child { margin-left: 0; }
-.avatar--1 { background: linear-gradient(135deg, var(--pink), var(--coral)); }
-.avatar--2 { background: linear-gradient(135deg, var(--purple), #9580ff); }
-.avatar--3 { background: linear-gradient(135deg, var(--mint), #6ee7b7); }
-.avatar--4 { background: linear-gradient(135deg, var(--yellow), var(--coral)); color: var(--ink); }
-
-.stars { color: var(--yellow); font-size: 15px; letter-spacing: 2px; }
-.hero__proof-text p { font-size: 13px; color: var(--ink-soft); margin-top: 2px; }
-
-/* ---- Hero visual / browser mockup ---- */
-.hero__visual { position: relative; }
-.float-wrap {
-  position: relative;
-  animation: float 6s ease-in-out infinite;
-}
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-12px); }
-}
-
-.browser {
-  background: var(--surface);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
-  overflow: hidden;
-  border: 1px solid var(--line);
-  transform: rotate(1.5deg);
-  transition: transform 0.6s cubic-bezier(.2,.8,.2,1);
-}
-.hero__visual:hover .browser { transform: rotate(0deg); }
-
-.browser__bar {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 14px 18px;
-  background: #FAF6F1;
-  border-bottom: 1px solid var(--line);
-}
-.browser__dot { width: 12px; height: 12px; border-radius: 50%; }
-.browser__dot--red    { background: #FF6B6B; }
-.browser__dot--yellow { background: #FFD43B; }
-.browser__dot--green  { background: #51CF66; }
-.browser__url {
-  margin-left: 14px;
-  font-size: 12px;
-  color: var(--ink-soft);
-  background: var(--bg);
-  padding: 5px 14px;
-  border-radius: 999px;
-  font-family: ui-monospace, SFMono-Regular, monospace;
-}
-
-.browser__body { padding: 24px; }
-
-.mock-hero {
-  display: grid;
-  grid-template-columns: 1.5fr 1fr;
-  gap: 18px;
-  background: linear-gradient(135deg, var(--pink-soft), var(--yellow-soft));
-  padding: 22px;
-  border-radius: var(--radius-md);
-  margin-bottom: 16px;
-  align-items: center;
-}
-.mock-hero__text { display: flex; flex-direction: column; gap: 8px; }
-.mock-line {
-  height: 10px;
-  border-radius: 999px;
-  background: rgba(20,20,43,0.85);
-}
-.mock-line--lg  { width: 90%; height: 14px; }
-.mock-line--md  { width: 65%; background: rgba(20,20,43,0.5); }
-.mock-line--sm  { width: 45%; background: rgba(20,20,43,0.35); height: 8px; }
-.mock-line--xs  { width: 70%; height: 7px; background: rgba(20,20,43,0.7); }
-.mock-line--xxs { width: 40%; height: 6px; background: rgba(20,20,43,0.4); }
-
-.mock-btn {
-  align-self: flex-start;
-  margin-top: 6px;
-  background: var(--ink);
-  color: #fff;
-  font-size: 11px;
-  font-weight: 600;
-  padding: 8px 14px;
-  border-radius: 999px;
-}
-
-.mock-hero__art {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.mock-cup {
-  position: relative;
-  width: 70px;
-  height: 75px;
-  background: var(--coral);
-  border-radius: 8px 8px 18px 18px;
-  box-shadow: inset 0 -10px 0 rgba(0,0,0,0.1);
-}
-.mock-cup::before {
-  content: "";
-  position: absolute;
-  right: -16px; top: 16px;
-  width: 22px; height: 28px;
-  border: 5px solid var(--coral);
-  border-radius: 0 50% 50% 0;
-  border-left: 0;
-}
-.mock-cup__steam {
-  position: absolute;
-  top: -22px; left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 4px;
-}
-.mock-cup__steam span {
-  display: block;
-  width: 4px;
-  height: 18px;
-  background: rgba(20,20,43,0.18);
-  border-radius: 999px;
-  animation: steam 2.4s ease-in-out infinite;
-}
-.mock-cup__steam span:nth-child(2) { animation-delay: -0.8s; }
-.mock-cup__steam span:nth-child(3) { animation-delay: -1.6s; }
-@keyframes steam {
-  0%, 100% { transform: translateY(0) scaleY(1); opacity: 0.3; }
-  50%      { transform: translateY(-6px) scaleY(1.1); opacity: 0.7; }
-}
-
-.mock-cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-}
-.mock-card {
-  background: var(--bg);
-  border-radius: var(--radius-md);
-  padding: 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-.mock-card__icon { font-size: 22px; margin-bottom: 4px; }
-.mock-card--a { background: var(--mint-soft); }
-.mock-card--b { background: var(--purple-soft); }
-.mock-card--c { background: var(--yellow-soft); }
-
-/* Floating stat cards */
-.float-card {
-  position: absolute;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: #fff;
-  padding: 12px 18px;
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-md);
-  border: 1px solid var(--line);
-  font-weight: 600;
-}
-.float-card__icon {
-  width: 36px; height: 36px;
-  border-radius: 12px;
-  display: flex; align-items: center; justify-content: center;
-  background: var(--mint-soft);
-  color: var(--mint);
-  font-weight: 700;
-}
-.float-card__icon--yellow { background: var(--yellow-soft); color: #C99700; font-size: 18px; }
-.float-card__num { font-size: 16px; line-height: 1.2; }
-.float-card__label { font-size: 12px; color: var(--ink-soft); font-weight: 500; }
-
-.float-card--traffic {
-  top: 14%;
-  left: -28px;
-  animation: bob 5s ease-in-out infinite;
-}
-.float-card--rank {
-  bottom: 8%;
-  right: -20px;
-  animation: bob 5s ease-in-out infinite;
-  animation-delay: -2s;
-}
-@keyframes bob {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-10px); }
-}
-
-/* ============================================
-   MARQUEE
-   ============================================ */
-.marquee {
-  background: var(--ink);
-  color: #fff;
-  padding: 22px 0;
-  overflow: hidden;
-  position: relative;
-}
-.marquee::before, .marquee::after {
-  content: "";
-  position: absolute;
-  top: 0; bottom: 0;
-  width: 80px;
-  z-index: 2;
-  pointer-events: none;
-}
-.marquee::before { left: 0;  background: linear-gradient(90deg, var(--ink), transparent); }
-.marquee::after  { right: 0; background: linear-gradient(-90deg, var(--ink), transparent); }
-
-.marquee__track {
-  display: flex;
-  gap: 32px;
-  white-space: nowrap;
-  font-family: var(--font-display);
-  font-size: clamp(20px, 2.8vw, 28px);
-  font-weight: 600;
-  animation: marquee 28s linear infinite;
-  width: max-content;
-}
-.marquee__track span:nth-child(odd)  { color: #fff; }
-.marquee__track span:nth-child(even) { color: var(--pink); }
-
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
-
-/* ============================================
-   FEATURES
-   ============================================ */
-.features-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-}
-
-.feature {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  padding: 32px;
-  transition: transform 0.4s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease, border-color 0.3s ease;
-  transform: rotate(var(--tilt));
-  position: relative;
-  overflow: hidden;
-}
-.feature::after {
-  content: "";
-  position: absolute;
-  top: -40%; right: -40%;
-  width: 60%; aspect-ratio: 1;
-  background: var(--accent);
-  opacity: 0;
-  filter: blur(40px);
-  border-radius: 50%;
-  transition: opacity 0.4s ease;
-}
-.feature:hover {
-  transform: rotate(0deg) translateY(-6px);
-  box-shadow: var(--shadow-md);
-  border-color: var(--accent);
-}
-.feature:hover::after { opacity: 0.18; }
-
-.feature__icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 56px; height: 56px;
-  border-radius: 18px;
-  background: var(--accent);
-  color: #fff;
-  margin-bottom: 22px;
-  transition: transform 0.4s cubic-bezier(.2,.8,.2,1);
-}
-.feature:hover .feature__icon { transform: rotate(-8deg) scale(1.06); }
-.feature[style*="--yellow"] .feature__icon { color: var(--ink); }
-
-.feature h3 {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 22px;
-  letter-spacing: -0.015em;
-  margin-bottom: 10px;
-}
-.feature p {
-  color: var(--ink-soft);
-  font-size: 15.5px;
-  line-height: 1.6;
-}
-
-/* ============================================
-   HOW IT WORKS
-   ============================================ */
-.steps {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
-  position: relative;
-}
-.steps__connector {
-  position: absolute;
-  top: 30px;
-  left: 0;
-  right: 0;
-  width: 100%;
-  height: 80px;
-  z-index: 0;
-}
-
-.step {
-  position: relative;
-  z-index: 1;
-  text-align: center;
-  padding: 20px;
-}
-.step__num {
-  width: 72px;
-  height: 72px;
-  margin: 0 auto 24px;
-  background: var(--surface);
-  border: 3px solid var(--ink);
-  color: var(--ink);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 32px;
-  box-shadow: 0 0 0 6px var(--bg-soft);
-  transition: transform 0.4s cubic-bezier(.2,.8,.2,1), background 0.3s ease, color 0.3s ease;
-}
-.step:nth-child(2) .step__num { border-color: var(--pink); }
-.step:nth-child(3) .step__num { border-color: var(--purple); }
-.step:nth-child(4) .step__num { border-color: var(--mint); }
-
-.step:hover .step__num {
-  transform: scale(1.06) rotate(-4deg);
-  background: var(--ink);
-  color: var(--yellow);
-}
-
-.step__title {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 24px;
-  letter-spacing: -0.015em;
-  margin-bottom: 10px;
-}
-.step__desc {
-  color: var(--ink-soft);
-  font-size: 16px;
-  max-width: 320px;
-  margin: 0 auto;
-  line-height: 1.6;
-}
-
-/* ============================================
-   FAQ
-   ============================================ */
-.faq {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.faq__item {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
-}
-.faq__item:hover { border-color: var(--purple); }
-.faq__item[open] {
-  border-color: var(--purple);
-  box-shadow: var(--shadow-sm);
-}
-
-.faq__item summary {
-  list-style: none;
-  cursor: pointer;
-  padding: 22px 24px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 20px;
-  font-weight: 600;
-  font-size: 17px;
-  letter-spacing: -0.01em;
-}
-.faq__item summary::-webkit-details-marker { display: none; }
-
-.faq__icon {
-  flex-shrink: 0;
-  width: 32px; height: 32px;
-  border-radius: 50%;
-  background: var(--bg-soft);
-  position: relative;
-  transition: background 0.25s ease, transform 0.3s cubic-bezier(.2,.8,.2,1);
-}
-.faq__icon::before, .faq__icon::after {
-  content: "";
-  position: absolute;
-  top: 50%; left: 50%;
-  width: 12px; height: 2px;
-  background: var(--ink);
-  transform: translate(-50%, -50%);
-  transition: transform 0.3s ease;
-  border-radius: 2px;
-}
-.faq__icon::after { transform: translate(-50%, -50%) rotate(90deg); }
-
-.faq__item[open] .faq__icon { background: var(--purple); transform: rotate(180deg); }
-.faq__item[open] .faq__icon::before,
-.faq__item[open] .faq__icon::after { background: #fff; }
-.faq__item[open] .faq__icon::after { transform: translate(-50%, -50%) rotate(0deg); }
-
-.faq__body {
-  padding: 0 24px 24px;
-  color: var(--ink-soft);
-  font-size: 16px;
-  line-height: 1.65;
-  max-width: 720px;
-}
-
-/* ============================================
-   BOTTOM CTA
-   ============================================ */
-.cta {
-  position: relative;
-  padding: 110px 0;
-  background: var(--ink);
-  color: #fff;
-  overflow: hidden;
-  margin-top: 0;
-}
-.cta__bg {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-}
-.blob--cta-1 {
-  width: 500px; height: 500px;
-  background: var(--pink);
-  top: -180px; left: -120px;
-  filter: blur(100px);
-  opacity: 0.45;
-}
-.blob--cta-2 {
-  width: 400px; height: 400px;
-  background: var(--purple);
-  bottom: -150px; right: -120px;
-  filter: blur(100px);
-  opacity: 0.5;
-  animation-delay: -3s;
-}
-
-.cta__inner {
-  position: relative;
-  z-index: 1;
-  text-align: center;
-  max-width: 760px;
-}
-
-.cta__title {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: clamp(34px, 5vw, 60px);
-  line-height: 1.05;
-  letter-spacing: -0.025em;
-  margin-bottom: 18px;
-}
-.cta__title .word-highlight::before { background: rgba(255, 212, 59, 0.25); }
-
-.cta__sub {
-  font-size: 19px;
-  opacity: 0.78;
-  margin-bottom: 36px;
-  line-height: 1.55;
-}
-
-.cta__small {
-  margin-top: 24px;
-  font-size: 13.5px;
-  opacity: 0.7;
-}
-.cta__phone {
-  color: var(--yellow);
-  font-weight: 600;
-  border-bottom: 1px dashed currentColor;
-  padding-bottom: 1px;
-  transition: opacity 0.2s ease;
-}
-.cta__phone:hover { opacity: 0.85; }
-
-/* ============================================
-   A21 IMPACT
-   ============================================ */
-.impact {
-  padding: 60px 0 120px;
-}
-.impact__card {
-  background: linear-gradient(135deg, var(--mint-soft) 0%, var(--purple-soft) 100%);
-  border-radius: var(--radius-xl);
-  padding: 60px;
-  display: grid;
-  grid-template-columns: 280px 1fr;
-  gap: 60px;
-  align-items: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.impact__visual {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 240px;
-}
-.impact__badge {
-  position: relative;
-  z-index: 2;
-  width: 200px; height: 200px;
-  background: var(--ink);
-  color: #fff;
-  border-radius: 50%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  box-shadow: var(--shadow-lg);
-  animation: badge-spin 22s linear infinite;
-}
-.impact__badge::before {
-  content: "";
-  position: absolute;
-  inset: -12px;
-  border: 2px dashed var(--ink);
-  border-radius: 50%;
-  opacity: 0.18;
-  animation: badge-spin-reverse 18s linear infinite;
-}
-@keyframes badge-spin { to { transform: rotate(360deg); } }
-@keyframes badge-spin-reverse { to { transform: rotate(-360deg); } }
-
-.impact__pct {
-  font-family: var(--font-display);
-  font-size: 56px;
-  font-weight: 700;
-  color: var(--yellow);
-  line-height: 1;
-  animation: badge-spin-reverse 22s linear infinite;
-}
-.impact__label {
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  margin-top: 6px;
-  opacity: 0.7;
-  animation: badge-spin-reverse 22s linear infinite;
-}
-
-.impact__rings span {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  border: 2px solid var(--mint);
-  opacity: 0.25;
-  animation: ring 4s ease-out infinite;
-}
-.impact__rings span:nth-child(1) { width: 220px; height: 220px; }
-.impact__rings span:nth-child(2) { width: 220px; height: 220px; animation-delay: 1.3s; }
-.impact__rings span:nth-child(3) { width: 220px; height: 220px; animation-delay: 2.6s; }
-@keyframes ring {
-  0%   { width: 200px; height: 200px; opacity: 0.6; }
-  100% { width: 360px; height: 360px; opacity: 0; }
-}
-
-.impact__title {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: clamp(28px, 3.6vw, 42px);
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  margin-bottom: 20px;
-}
-.impact__text {
-  color: var(--ink-soft);
-  font-size: 16.5px;
-  line-height: 1.7;
-  margin-bottom: 14px;
-}
-.impact__text strong { color: var(--ink); }
-
-.impact__link {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 14px;
-  font-weight: 600;
-  font-size: 15px;
-  color: var(--purple);
-  border-bottom: 2px solid currentColor;
-  padding-bottom: 2px;
-  transition: gap 0.25s ease;
-}
-.impact__link:hover { gap: 10px; }
-
-/* ============================================
-   FOOTER
-   ============================================ */
-.footer {
-  background: var(--ink);
-  color: #fff;
-  padding: 80px 0 40px;
-}
-
-.footer__grid {
-  display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr 1fr;
-  gap: 48px;
-  margin-bottom: 60px;
-}
-
-.footer__tag {
-  margin-top: 18px;
-  color: rgba(255,255,255,0.62);
-  font-size: 15px;
-  max-width: 320px;
-  line-height: 1.6;
-}
-
-.footer__social {
-  display: flex;
-  gap: 10px;
-  margin-top: 24px;
-}
-.footer__social a {
-  width: 40px; height: 40px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.06);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.2s ease, transform 0.3s cubic-bezier(.2,.8,.2,1), color 0.2s ease;
-}
-.footer__social a:nth-child(1):hover { background: var(--pink); }
-.footer__social a:nth-child(2):hover { background: var(--purple); }
-.footer__social a:nth-child(3):hover { background: var(--mint); }
-.footer__social a:nth-child(4):hover { background: var(--yellow); color: var(--ink); }
-.footer__social a:hover { transform: translateY(-3px) rotate(-6deg); }
-
-.footer__col h4 {
-  font-size: 13px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  font-weight: 700;
-  margin-bottom: 18px;
-  color: rgba(255,255,255,0.55);
-}
-.footer__col ul { display: flex; flex-direction: column; gap: 12px; }
-.footer__col a {
-  color: rgba(255,255,255,0.85);
-  font-size: 15px;
-  transition: color 0.2s ease;
-}
-.footer__col a:hover { color: var(--yellow); }
-
-.footer__bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 12px;
-  padding-top: 28px;
-  border-top: 1px solid rgba(255,255,255,0.08);
-  font-size: 14px;
-  color: rgba(255,255,255,0.55);
-}
-.footer__pledge a {
-  color: var(--pink);
-  font-weight: 600;
-  border-bottom: 1px dashed currentColor;
-  padding-bottom: 1px;
-}
-
-/* ============================================
-   SCROLL REVEAL
-   ============================================ */
-.reveal {
-  opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.8s cubic-bezier(.2,.8,.2,1), transform 0.8s cubic-bezier(.2,.8,.2,1);
-}
-.reveal.is-in {
-  opacity: 1;
-  transform: translateY(0);
-}
-.reveal--delay-1 { transition-delay: 0.12s; }
-.reveal--delay-2 { transition-delay: 0.24s; }
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
-  }
-  .reveal { opacity: 1; transform: none; }
-}
-
-/* ============================================
-   RESPONSIVE
-   ============================================ */
-@media (max-width: 960px) {
-  .section { padding: 90px 0; }
-  .section__head { margin-bottom: 56px; }
-
-  .hero__grid {
-    grid-template-columns: 1fr;
-    gap: 60px;
-  }
-  .hero__visual { max-width: 520px; margin: 0 auto; }
-  .float-card--traffic { left: -10px; }
-  .float-card--rank { right: -10px; }
-
-  .features-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .steps {
-    grid-template-columns: 1fr;
-    gap: 40px;
-    max-width: 460px;
-    margin: 0 auto;
-  }
-  .steps__connector { display: none; }
-
-  .impact__card {
-    grid-template-columns: 1fr;
-    gap: 40px;
-    padding: 48px 32px;
-    text-align: center;
-  }
-
-  .footer__grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 36px;
-  }
-  .footer__brand { grid-column: 1 / -1; }
-
-  .nav__links { display: none; }
-  .nav__cta { display: none; }
-  .nav__toggle { display: flex; }
-
-  .nav.is-open .nav__links {
-    display: flex;
-    position: absolute;
-    top: 100%; left: 0; right: 0;
-    flex-direction: column;
-    background: var(--surface);
-    margin: 0;
-    padding: 16px;
-    border-bottom: 1px solid var(--line);
-    box-shadow: var(--shadow-md);
-  }
-  .nav.is-open .nav__links a {
-    padding: 14px 18px;
-    font-size: 17px;
-  }
-  .nav.is-open .nav__toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-  .nav.is-open .nav__toggle span:nth-child(2) { opacity: 0; }
-  .nav.is-open .nav__toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-}
-
-@media (max-width: 600px) {
-  body { font-size: 16px; }
-  .container { padding: 0 20px; }
-  .section { padding: 72px 0; }
-
-  .hero { padding: 50px 0 70px; }
-  .hero__cta { flex-direction: column; align-items: stretch; }
-  .hero__cta .btn { justify-content: center; }
-  .hero__proof { flex-wrap: wrap; }
-
-  .features-grid { grid-template-columns: 1fr; }
-  .feature { transform: none !important; }
-  .feature:hover { transform: translateY(-4px); }
-
-  .impact { padding: 30px 0 80px; }
-  .impact__card { padding: 40px 24px; border-radius: var(--radius-lg); }
-  .impact__visual { height: 200px; }
-  .impact__badge { width: 170px; height: 170px; }
-  .impact__pct { font-size: 46px; }
-
-  .footer__grid { grid-template-columns: 1fr; gap: 32px; }
-  .footer__brand { grid-column: auto; }
-  .footer__bottom { justify-content: center; text-align: center; }
-
-  .float-card--traffic { top: 6%; left: 0; padding: 8px 14px; }
-  .float-card--rank { bottom: 4%; right: 0; padding: 8px 14px; }
-  .float-card__num { font-size: 14px; }
-  .float-card__label { font-size: 11px; }
-
-  .cta { padding: 80px 0; }
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="pixelpop — playful websites and SEO for local businesses ready to get noticed and grow." />
+  <title>pixelpop — Websites that pop. Customers that convert.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='28' fill='%23FF4D8B'/%3E%3Ctext x='50' y='66' font-family='Plus Jakarta Sans, sans-serif' font-size='56' font-weight='800' fill='white' text-anchor='middle'%3Ep%3C/text%3E%3C/svg%3E" />
+</head>
+<body>
+
+  <!-- ============ NAVBAR ============ -->
+  <header class="nav">
+    <div class="container nav__inner">
+      <a href="#" class="logo" aria-label="pixelpop home">
+        <span class="logo__mark">
+          <span class="logo__dot logo__dot--1"></span>
+          <span class="logo__dot logo__dot--2"></span>
+          <span class="logo__dot logo__dot--3"></span>
+          <span class="logo__dot logo__dot--4"></span>
+        </span>
+        <span class="logo__text">pixelpop</span>
+      </a>
+
+      <nav class="nav__links" aria-label="Primary">
+        <a href="#features">What we do</a>
+        <a href="#how">How it works</a>
+        <a href="#faq">FAQ</a>
+        <a href="#impact">Impact</a>
+      </nav>
+
+      <a href="#contact" class="btn btn--primary btn--sm nav__cta">
+        <span>Unlock Your Web Traffic Revenue</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+
+      <button class="nav__toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="hero__bg" aria-hidden="true">
+      <div class="blob blob--1"></div>
+      <div class="blob blob--2"></div>
+      <div class="blob blob--3"></div>
+    </div>
+
+    <div class="container hero__grid">
+      <div class="hero__content reveal">
+        <span class="pill">
+          <span class="pill__dot"></span>
+          UK web design agency · taking on new clients
+        </span>
+
+        <h1 class="hero__title">
+          Local websites that <span class="hl-underline">convert,</span><br />
+          <span class="hl-color">rank,</span> and <span class="hl-pill">pop.</span>
+        </h1>
+
+        <p class="hero__sub">
+          We help UK local businesses turn website traffic into real revenue — through smart conversion design, sharp SEO, and standout Google Business profiles. No jargon, no faff, just more customers.
+        </p>
+
+        <div class="hero__cta">
+          <a href="#contact" class="btn btn--primary btn--lg">
+            <span>Unlock Your Web Traffic Revenue</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+          <a href="#how" class="btn btn--ghost btn--lg">See how it works</a>
+        </div>
+
+        <div class="hero__proof">
+          <div class="hero__proof-text">
+            <div class="stars" aria-hidden="true">★★★★★</div>
+            <p>Trusted by local businesses across cafés, salons, trades &amp; clinics</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero illustration: stylized browser mockup -->
+      <div class="hero__visual reveal reveal--delay-1" aria-hidden="true">
+        <div class="float-wrap">
+          <div class="browser">
+            <div class="browser__bar">
+              <span class="browser__dot browser__dot--red"></span>
+              <span class="browser__dot browser__dot--yellow"></span>
+              <span class="browser__dot browser__dot--green"></span>
+              <span class="browser__url">bloomcafe.com</span>
+            </div>
+            <div class="browser__body">
+              <div class="mock-hero">
+                <div class="mock-hero__text">
+                  <div class="mock-line mock-line--lg"></div>
+                  <div class="mock-line mock-line--md"></div>
+                  <div class="mock-line mock-line--sm"></div>
+                  <div class="mock-btn">Order now →</div>
+                </div>
+                <div class="mock-hero__art">
+                  <div class="mock-cup">
+                    <div class="mock-cup__steam"><span></span><span></span><span></span></div>
+                  </div>
+                </div>
+              </div>
+              <div class="mock-cards">
+                <div class="mock-card mock-card--a">
+                  <div class="mock-card__icon">☕</div>
+                  <div class="mock-line mock-line--xs"></div>
+                  <div class="mock-line mock-line--xxs"></div>
+                </div>
+                <div class="mock-card mock-card--b">
+                  <div class="mock-card__icon">🥐</div>
+                  <div class="mock-line mock-line--xs"></div>
+                  <div class="mock-line mock-line--xxs"></div>
+                </div>
+                <div class="mock-card mock-card--c">
+                  <div class="mock-card__icon">🍰</div>
+                  <div class="mock-line mock-line--xs"></div>
+                  <div class="mock-line mock-line--xxs"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Floating stat cards -->
+          <div class="float-card float-card--traffic">
+            <div class="float-card__icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg>
+            </div>
+            <div>
+              <div class="float-card__num">+247%</div>
+              <div class="float-card__label">monthly visits</div>
+            </div>
+          </div>
+
+          <div class="float-card float-card--rank">
+            <div class="float-card__icon float-card__icon--yellow">★</div>
+            <div>
+              <div class="float-card__num">#1 on Maps</div>
+              <div class="float-card__label">in your area</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MARQUEE / TRUST STRIP ============ -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track">
+      <span>Cafés</span><span>•</span>
+      <span>Salons</span><span>•</span>
+      <span>Tradespeople</span><span>•</span>
+      <span>Clinics</span><span>•</span>
+      <span>Restaurants</span><span>•</span>
+      <span>Boutiques</span><span>•</span>
+      <span>Studios</span><span>•</span>
+      <span>Gyms</span><span>•</span>
+      <span>Cafés</span><span>•</span>
+      <span>Salons</span><span>•</span>
+      <span>Tradespeople</span><span>•</span>
+      <span>Clinics</span><span>•</span>
+      <span>Restaurants</span><span>•</span>
+      <span>Boutiques</span><span>•</span>
+      <span>Studios</span><span>•</span>
+      <span>Gyms</span><span>•</span>
+    </div>
+  </div>
+
+  <!-- ============ FEATURES ============ -->
+  <section id="features" class="section">
+    <div class="container">
+      <div class="section__head reveal">
+        <span class="eyebrow">What you get</span>
+        <h2 class="section__title">Everything your business needs to be <span class="word-highlight word-highlight--mint">found</span> and <span class="word-highlight word-highlight--yellow">chosen</span>.</h2>
+        <p class="section__sub">No jargon, no bloat. Just the things that actually move the needle for local businesses.</p>
+      </div>
+
+      <div class="features-grid">
+        <article class="feature reveal" style="--accent: var(--pink); --tilt: -1deg;">
+          <div class="feature__icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8 5.8 21.3l2.4-7.4L2 9.4h7.6z"/></svg>
+          </div>
+          <h3>Stunning custom design</h3>
+          <p>Websites that feel like your brand — handcrafted, never templated. The kind that make people stop scrolling.</p>
+        </article>
+
+        <article class="feature reveal reveal--delay-1" style="--accent: var(--purple); --tilt: 1deg;">
+          <div class="feature__icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          </div>
+          <h3>SEO that actually works</h3>
+          <p>We get you ranking for the searches that drive real customers — not vanity keywords nobody types.</p>
+        </article>
+
+        <article class="feature reveal reveal--delay-2" style="--accent: var(--mint); --tilt: -1deg;">
+          <div class="feature__icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-7 7-12a7 7 0 1 0-14 0c0 5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>
+          </div>
+          <h3>Google Business glow-up</h3>
+          <p>Most local searches end on Google Maps. We make sure yours is the listing they tap on.</p>
+        </article>
+
+        <article class="feature reveal" style="--accent: var(--yellow); --tilt: 1deg;">
+          <div class="feature__icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7z"/></svg>
+          </div>
+          <h3>Lightning-fast loading</h3>
+          <p>Every second of load time costs you customers. Our sites feel instant, on any phone or connection.</p>
+        </article>
+
+        <article class="feature reveal reveal--delay-1" style="--accent: var(--pink); --tilt: -1deg;">
+          <div class="feature__icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>
+          </div>
+          <h3>Mobile-first, always</h3>
+          <p>Three out of four local searches happen on a phone. Your site will look incredible on the smallest screen first.</p>
+        </article>
+
+        <article class="feature reveal reveal--delay-2" style="--accent: var(--purple); --tilt: 1deg;">
+          <div class="feature__icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a4 4 0 0 1-4 4H8l-5 4V6a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></svg>
+          </div>
+          <h3>Real humans, real support</h3>
+          <p>You'll talk to the person who actually built your site. No support tickets, no offshore handoffs.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HOW IT WORKS ============ -->
+  <section id="how" class="section section--soft">
+    <div class="container">
+      <div class="section__head reveal">
+        <span class="eyebrow">How it works</span>
+        <h2 class="section__title">From first chat to first new customer in <span class="word-highlight word-highlight--pink">three steps</span>.</h2>
+        <p class="section__sub">Simple, transparent, and built around how busy local business owners actually work.</p>
+      </div>
+
+      <ol class="steps">
+        <svg class="steps__connector" viewBox="0 0 1000 120" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M 80 60 Q 280 0 500 60 T 920 60" fill="none" stroke="url(#grad)" stroke-width="3" stroke-dasharray="6 8" stroke-linecap="round" />
+          <defs>
+            <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#FF4D8B" />
+              <stop offset="50%" stop-color="#6C4DFF" />
+              <stop offset="100%" stop-color="#00D4AA" />
+            </linearGradient>
+          </defs>
+        </svg>
+
+        <li class="step reveal">
+          <div class="step__num">1</div>
+          <h3 class="step__title">Free discovery chat</h3>
+          <p class="step__desc">A relaxed 30-minute call about your business, your customers, and what's actually working (and what isn't).</p>
+        </li>
+
+        <li class="step reveal reveal--delay-1">
+          <div class="step__num">2</div>
+          <h3 class="step__title">Design &amp; build</h3>
+          <p class="step__desc">We craft a custom website and tune up your Google presence. You see progress every few days, not in a big scary reveal.</p>
+        </li>
+
+        <li class="step reveal reveal--delay-2">
+          <div class="step__num">3</div>
+          <h3 class="step__title">Launch &amp; grow</h3>
+          <p class="step__desc">We hit go, watch your traffic climb, and stick around to keep things sharp as your business grows.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section id="faq" class="section">
+    <div class="container container--narrow">
+      <div class="section__head reveal">
+        <span class="eyebrow">FAQ</span>
+        <h2 class="section__title">Questions we hear <span class="word-highlight word-highlight--purple">all the time</span>.</h2>
+        <p class="section__sub">Honest answers. If yours isn't here, just ask.</p>
+      </div>
+
+      <div class="faq reveal">
+        <details class="faq__item">
+          <summary>
+            <span>How long does a typical project take from start to launch?</span>
+            <span class="faq__icon" aria-hidden="true"></span>
+          </summary>
+          <div class="faq__body">
+            <p>Most websites go live within 2–4 weeks from kickoff. Bigger projects with custom booking, e-commerce, or lots of content can stretch to 6 weeks. We'll give you a clear timeline before we start, and you'll always know what's happening that week.</p>
+          </div>
+        </details>
+
+        <details class="faq__item">
+          <summary>
+            <span>How much does a new website actually cost?</span>
+            <span class="faq__icon" aria-hidden="true"></span>
+          </summary>
+          <div class="faq__body">
+            <p>Projects start from £3,000 for a polished, custom-built website. Bigger builds with extras like online booking, e-commerce, or lots of content scale up from there. We send a fixed quote before any work starts — no hidden fees, no surprise invoices, no hourly creep.</p>
+          </div>
+        </details>
+
+        <details class="faq__item">
+          <summary>
+            <span>I already have a website. Can you fix it instead of starting over?</span>
+            <span class="faq__icon" aria-hidden="true"></span>
+          </summary>
+          <div class="faq__body">
+            <p>Absolutely. We do free audits of existing sites and often the right call is to fix what's there rather than rebuild from scratch. We'll be straight with you — sometimes a rebuild really is the better investment, but we'll explain why before suggesting it.</p>
+          </div>
+        </details>
+
+        <details class="faq__item">
+          <summary>
+            <span>Will my site actually rank on Google, or is that just sales talk?</span>
+            <span class="faq__icon" aria-hidden="true"></span>
+          </summary>
+          <div class="faq__body">
+            <p>For local searches in your area, yes — that's our specialty. SEO isn't magic, but for a local business competing with a handful of others in town, the right technical setup, optimised Google Business profile, and good content goes a long way. We'll be honest about realistic timelines (usually 2–3 months to start seeing real movement).</p>
+          </div>
+        </details>
+
+        <details class="faq__item">
+          <summary>
+            <span>What happens after launch — am I on my own?</span>
+            <span class="faq__icon" aria-hidden="true"></span>
+          </summary>
+          <div class="faq__body">
+            <p>Never. Every site comes with 30 days of free tweaks and support post-launch. After that, we offer a simple monthly care plan covering ongoing SEO maintenance, security updates, content edits, and a monthly check-in on your traffic and rankings. You're free to walk away any time — your site and domain always stay yours.</p>
+          </div>
+        </details>
+
+        <details class="faq__item">
+          <summary>
+            <span>Do you really donate 10% to charity, or is that marketing?</span>
+            <span class="faq__icon" aria-hidden="true"></span>
+          </summary>
+          <div class="faq__body">
+            <p>Real, every project, no asterisks. 10% of the revenue from every website we build goes directly to A21, an organisation fighting human trafficking and modern slavery. We'll happily share receipts on request — it's a small thing, but it's why we get out of bed.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BOTTOM CTA ============ -->
+  <section id="contact" class="cta">
+    <div class="cta__bg" aria-hidden="true">
+      <div class="blob blob--cta-1"></div>
+      <div class="blob blob--cta-2"></div>
+    </div>
+    <div class="container cta__inner reveal">
+      <span class="eyebrow eyebrow--light">Let's make your phone ring</span>
+      <h2 class="cta__title">Ready to make your business <span class="word-highlight word-highlight--yellow">impossible to scroll past</span>?</h2>
+      <p class="cta__sub">Free 30-minute discovery call. No pressure, no scripts, no commitment. Just an honest chat about whether we're a good fit.</p>
+      <a href="mailto:hi@trypixelpop.com" class="btn btn--white btn--lg">
+        <span>Unlock Your Web Traffic Revenue</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+      <p class="cta__small">Or call us on <a href="tel:+447767459100" class="cta__phone">07767 459100</a> · Replies within one working day · Based in the UK</p>
+    </div>
+  </section>
+
+  <!-- ============ A21 IMPACT ============ -->
+  <section id="impact" class="section impact">
+    <div class="container">
+      <div class="impact__card reveal">
+        <div class="impact__visual" aria-hidden="true">
+          <div class="impact__badge">
+            <span class="impact__pct">10%</span>
+            <span class="impact__label">of every project</span>
+          </div>
+          <div class="impact__rings">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+
+        <div class="impact__content">
+          <span class="eyebrow">Built for more than profit</span>
+          <h2 class="impact__title">Every website you build with us helps fight modern slavery.</h2>
+          <p class="impact__text">
+            10% of every project we deliver goes directly to <strong>A21</strong>, a global organisation working to abolish human trafficking. Today, more people are trapped in slavery than at any other point in human history — over 50 million by recent estimates.
+          </p>
+          <p class="impact__text">
+            A21 reaches survivors, restores their lives, and brings traffickers to justice across more than a dozen countries. When you hire us, you're quietly helping that work happen.
+          </p>
+          <a href="https://www.a21.org" target="_blank" rel="noopener" class="impact__link">
+            Learn about A21
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <a href="#" class="logo">
+            <span class="logo__mark">
+              <span class="logo__dot logo__dot--1"></span>
+              <span class="logo__dot logo__dot--2"></span>
+              <span class="logo__dot logo__dot--3"></span>
+              <span class="logo__dot logo__dot--4"></span>
+            </span>
+            <span class="logo__text">pixelpop</span>
+          </a>
+          <p class="footer__tag">Playful, high-performing websites for local businesses ready to grow.</p>
+        </div>
+
+        <div class="footer__col">
+          <h4>Studio</h4>
+          <ul>
+            <li><a href="#features">What we do</a></li>
+            <li><a href="#how">How it works</a></li>
+            <li><a href="#impact">Our impact</a></li>
+            <li><a href="#contact">Start a project</a></li>
+          </ul>
+        </div>
+
+        <div class="footer__col">
+          <h4>Services</h4>
+          <ul>
+            <li><a href="#features">Website design</a></li>
+            <li><a href="#features">Local SEO</a></li>
+            <li><a href="#features">Google Business</a></li>
+            <li><a href="#features">Care plans</a></li>
+          </ul>
+        </div>
+
+        <div class="footer__col">
+          <h4>Get in touch</h4>
+          <ul>
+            <li><a href="mailto:hi@trypixelpop.com">hi@trypixelpop.com</a></li>
+            <li><a href="tel:+447767459100">07767 459100</a></li>
+            <li><a href="#faq">Read the FAQ</a></li>
+            <li><a href="https://www.a21.org" target="_blank" rel="noopener">A21 charity partner</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <p>© <span id="year"></span> pixelpop studio. Made with love &amp; a lot of coffee.</p>
+        <p class="footer__pledge">10% of every project → <a href="https://www.a21.org" target="_blank" rel="noopener">A21</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
