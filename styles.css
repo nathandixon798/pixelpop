@@ -174,14 +174,14 @@ ul, ol { list-style: none; }
   display: inline-block;
   background: var(--mint);
   color: var(--ink);
-  padding: 0 0.22em;
-  border-radius: 0.18em;
-  line-height: 0.9;
+  padding: 0 0.16em;
+  border-radius: 0.14em;
+  line-height: 0.82;
   white-space: nowrap;
-  transform: rotate(-1.5deg) translateY(0.06em);
+  transform: rotate(-1.5deg) translateY(0.08em);
   transition: transform 0.4s cubic-bezier(.2,.8,.2,1);
 }
-.hl-pill:hover { transform: rotate(0deg) translateY(0.06em) scale(1.04); }
+.hl-pill:hover { transform: rotate(0deg) translateY(0.08em) scale(1.04); }
 
 /* ---- Buttons ---- */
 .btn {
